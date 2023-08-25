@@ -32,10 +32,4 @@
     </style>
 
     <style name="Theme.RestoFinder" parent="Base.Theme.RestoFinder" />
-
-    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash_icon</item>
-        <item name="colorPrimary">@color/md_theme_light_primary</item>
-        <item name="colorPrimaryDark">@color/md_theme_dark_primary</item>
-    </style>
 </resources>
