@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -16,6 +17,7 @@ import com.satria.dicoding.latihan.latihanretrofit_restaurantreview.data.respons
 import com.satria.dicoding.latihan.latihanretrofit_restaurantreview.data.response.RestaurantResponse
 import com.satria.dicoding.latihan.latihanretrofit_restaurantreview.data.retrofit.ApiConfig
 import com.satria.dicoding.latihan.latihanretrofit_restaurantreview.databinding.ActivityMainBinding
+import com.satria.dicoding.latihan.latihanretrofit_restaurantreview.ui.MainViewModel
 import com.satria.dicoding.latihan.latihanretrofit_restaurantreview.ui.ReviewAdapter
 import retrofit2.Call
 import retrofit2.Callback
@@ -36,75 +38,26 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+        val mainViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.NewInstanceFactory()
+        )[MainViewModel::class.java]
+
+
         val layoutManager = LinearLayoutManager(this)
         binding.rvReview.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.rvReview.addItemDecoration(itemDecoration)
 
-        findRestaurant()
+        mainViewModel.restaurant.observe(this) { setRestaurantData(it) }
+        mainViewModel.reviews.observe(this) { setReviewData(it) }
+        mainViewModel.isLoading.observe(this) { showLoading(it) }
 
         binding.btnSend.setOnClickListener { view ->
-            postReview(binding.edReview.text.toString())
+            mainViewModel.postReview(binding.edReview.text.toString())
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
-    }
-
-    private fun postReview(review: String) {
-        showLoading(true)
-        val client = ApiConfig.getApiService().postReview(RESTAURANT_ID, "Sidik", review)
-        client.enqueue(object : Callback<PostReviewResponse> {
-            override fun onResponse(
-                call: Call<PostReviewResponse>,
-                response: Response<PostReviewResponse>
-            ) {
-                showLoading(false)
-                val body = response.body()
-                if (response.isSuccessful && body != null) {
-                    setReviewData(body.customerReviews)
-                } else {
-                    showToast(response.message())
-                }
-            }
-
-            override fun onFailure(call: Call<PostReviewResponse>, t: Throwable) {
-                showLoading(false)
-                showToast("${t.message}")
-            }
-        })
-    }
-
-    private fun findRestaurant() {
-        showLoading(true)
-
-        val client = ApiConfig.getApiService().getRestaurant(RESTAURANT_ID)
-        client.enqueue(object : Callback<RestaurantResponse> {
-            override fun onResponse(
-                call: Call<RestaurantResponse>,
-                response: Response<RestaurantResponse>
-            ) {
-                showLoading(false)
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        setRestaurantData(responseBody.restaurant)
-                        setReviewData(responseBody.restaurant?.customerReviews)
-                    }
-                } else {
-                    showToast(response.message())
-                }
-            }
-
-            override fun onFailure(call: Call<RestaurantResponse>, t: Throwable) {
-                showLoading(false)
-                showToast("${t.message}")
-            }
-
-        })
-    }
-
-    private fun showToast(message: String) {
-        return Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun setReviewData(consumerReviews: List<CustomerReviewsItem?>?) {

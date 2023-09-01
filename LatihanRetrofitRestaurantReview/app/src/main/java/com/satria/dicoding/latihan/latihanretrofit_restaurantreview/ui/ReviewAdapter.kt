@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.satria.dicoding.latihan.latihanretrofit_restaurantreview.R
 
 import com.satria.dicoding.latihan.latihanretrofit_restaurantreview.data.response.CustomerReviewsItem
 import com.satria.dicoding.latihan.latihanretrofit_restaurantreview.databinding.ItemReviewBinding
@@ -32,7 +33,12 @@ class ReviewAdapter : ListAdapter<CustomerReviewsItem, ReviewAdapter.MyViewHolde
 
     class MyViewHolder(val binding: ItemReviewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(reviewsItem: CustomerReviewsItem) {
-            binding.tvItem.text = "${reviewsItem.review} - ${reviewsItem.name}"
+            binding.tvItem.text =
+                itemView.context.getString(
+                    R.string.review_text,
+                    reviewsItem.review,
+                    reviewsItem.name
+                )
         }
     }
 
