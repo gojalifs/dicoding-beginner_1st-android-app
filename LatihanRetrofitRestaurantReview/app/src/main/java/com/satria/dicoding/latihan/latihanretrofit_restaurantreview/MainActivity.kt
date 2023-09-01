@@ -3,25 +3,18 @@ package com.satria.dicoding.latihan.latihanretrofit_restaurantreview
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.satria.dicoding.latihan.latihanretrofit_restaurantreview.data.response.CustomerReviewsItem
-import com.satria.dicoding.latihan.latihanretrofit_restaurantreview.data.response.PostReviewResponse
 import com.satria.dicoding.latihan.latihanretrofit_restaurantreview.data.response.Restaurant
-import com.satria.dicoding.latihan.latihanretrofit_restaurantreview.data.response.RestaurantResponse
-import com.satria.dicoding.latihan.latihanretrofit_restaurantreview.data.retrofit.ApiConfig
 import com.satria.dicoding.latihan.latihanretrofit_restaurantreview.databinding.ActivityMainBinding
 import com.satria.dicoding.latihan.latihanretrofit_restaurantreview.ui.MainViewModel
 import com.satria.dicoding.latihan.latihanretrofit_restaurantreview.ui.ReviewAdapter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -52,6 +45,11 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.restaurant.observe(this) { setRestaurantData(it) }
         mainViewModel.reviews.observe(this) { setReviewData(it) }
         mainViewModel.isLoading.observe(this) { showLoading(it) }
+        mainViewModel.snackbarText.observe(this) {
+            it.getContentIfNotHandled()?.let { snackBarText ->
+                showSnackBar(snackBarText)
+            }
+        }
 
         binding.btnSend.setOnClickListener { view ->
             mainViewModel.postReview(binding.edReview.text.toString())
@@ -81,5 +79,9 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.progressBar.visibility = View.GONE
         }
+    }
+
+    private fun showSnackBar(v: String) {
+        Snackbar.make(window.decorView.rootView, v, Snackbar.LENGTH_SHORT).show()
     }
 }
