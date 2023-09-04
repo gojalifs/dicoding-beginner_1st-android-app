@@ -1,6 +1,8 @@
 package com.satria.dicoding.submission.mygithubapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         userViewModel.user.observe(this) { setUserData(it) }
+        userViewModel.isLoading.observe(this) { showLoading(it) }
 
         val sectionPagerAdapter = SectionPagerAdapter(this)
         val viewPager: ViewPager2 = binding.viewPager2
@@ -42,10 +45,21 @@ class MainActivity : AppCompatActivity() {
         }.attach()
     }
 
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.shimmerProfile.visibility = View.VISIBLE
+            binding.includeProfileHeader.root.visibility = View.INVISIBLE
+        } else {
+            binding.shimmerProfile.visibility = View.INVISIBLE
+            binding.includeProfileHeader.root.visibility = View.VISIBLE
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
     private fun setUserData(user: UserResponse?) {
         val userBinding = binding.includeProfileHeader
         userBinding.tvFullName.text = user?.name
-        userBinding.tvUsername.text = user?.login
+        userBinding.tvUsername.text = getString(R.string.username, user?.login)
         userBinding.tvCountry.text = user?.location
         userBinding.tvEmail.text = user?.email
         Glide.with(this).load(user?.avatarUrl).into(userBinding.imgAvatar)

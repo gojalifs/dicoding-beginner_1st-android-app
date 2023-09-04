@@ -7,14 +7,26 @@
     android:padding="12dp"
     tools:context=".MainActivity">
 
-    <include
-        android:id="@+id/include_profile_header"
-        layout="@layout/profile_header"
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include
+            layout="@layout/profile_header_shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <include
+        android:id="@+id/include_profile_header"
+        layout="@layout/profile_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"

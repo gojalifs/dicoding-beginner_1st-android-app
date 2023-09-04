@@ -55,9 +55,9 @@ class UserViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                TODO("Not yet implemented")
+                _isLoading.value = false
+                Log.e(TAG, "onFailure: ${t.message.toString()}")
             }
-
         })
     }
 }
