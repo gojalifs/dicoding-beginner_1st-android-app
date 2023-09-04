@@ -1,10 +1,10 @@
 package com.satria.dicoding.submission.mygithubapp.ui.profile
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.satria.dicoding.submission.mygithubapp.databinding.FragmentFollowBinding
 
 
@@ -36,10 +36,17 @@ class FollowFragment : Fragment() {
             username = it.getString(ARG_USERNAME) ?: ""
         }
 
-        if (position == 1){
-            binding.tvCardUsername.text = "Fajar $username"
+
+
+//        val layoutManager = LinearLayoutManager(view.context)
+//        binding.rvUsers.layoutManager = layoutManager
+//        val itemDecoration = DividerItemDecoration(view.context, layoutManager.orientation)
+//        binding.rvUsers.addItemDecoration(itemDecoration)
+
+        if (position == 1) {
+            // TODO: following
         } else {
-            binding.tvCardFullName.text = "Fajar Sidik $username"
+            // TODO: Follower
         }
     }
 }

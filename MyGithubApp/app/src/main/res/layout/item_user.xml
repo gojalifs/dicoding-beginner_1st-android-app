@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_card_avatar"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:contentDescription="Avatar Image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tv_card_username"
+            style="@style/TextContent.HeadlineMedium.Bold"
+            android:layout_marginStart="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/img_card_avatar"
+            app:layout_constraintStart_toEndOf="@+id/img_card_avatar"
+            app:layout_constraintTop_toTopOf="@+id/img_card_avatar"
+            tools:text="Full Name" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
