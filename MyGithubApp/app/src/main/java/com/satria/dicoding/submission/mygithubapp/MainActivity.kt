@@ -1,6 +1,5 @@
 package com.satria.dicoding.submission.mygithubapp
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -55,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("SetTextI18n")
+
     private fun setUserData(user: UserResponse?) {
         val userBinding = binding.includeProfileHeader
         userBinding.tvFullName.text = user?.name

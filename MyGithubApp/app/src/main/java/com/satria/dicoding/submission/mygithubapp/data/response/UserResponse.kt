@@ -1,14 +1,11 @@
 package com.satria.dicoding.submission.mygithubapp.data.response
 
-import kotlinx.parcelize.Parcelize
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class UserResponse(
-
-	@field:SerializedName("repos_url")
-	val reposUrl: String? = null,
 
 	@field:SerializedName("following_url")
 	val followingUrl: String? = null,
@@ -25,11 +22,8 @@ data class UserResponse(
 	@field:SerializedName("followers_url")
 	val followersUrl: String? = null,
 
-	@field:SerializedName("type")
-	val type: String? = null,
-
-	@field:SerializedName("public_gists")
-	val publicGists: Int? = null,
+	@field:SerializedName("blog")
+	val blog: String? = null,
 
 	@field:SerializedName("url")
 	val url: String? = null,
@@ -49,9 +43,6 @@ data class UserResponse(
 	@field:SerializedName("following")
 	val following: Int? = null,
 
-	@field:SerializedName("site_admin")
-	val siteAdmin: Boolean? = null,
-
 	@field:SerializedName("name")
 	val name: String? = null,
 
@@ -68,5 +59,8 @@ data class UserResponse(
 	val publicRepos: Int? = null,
 
 	@field:SerializedName("email")
-	val email: String? = null
+	val email: String? = null,
+
+	@field:SerializedName("node_id")
+	val nodeId: String? = null
 ) : Parcelable

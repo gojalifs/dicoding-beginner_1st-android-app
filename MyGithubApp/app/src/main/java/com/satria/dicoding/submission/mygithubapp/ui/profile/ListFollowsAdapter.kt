@@ -6,24 +6,19 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.satria.dicoding.submission.mygithubapp.data.response.FollowResponseItem
+import com.satria.dicoding.submission.mygithubapp.data.response.UserResponse
 import com.satria.dicoding.submission.mygithubapp.databinding.ItemUserBinding
 
 class ListFollowsAdapter :
-    ListAdapter<FollowResponseItem, ListFollowsAdapter.ViewHolder>(DIFF_CALLBACK) {
+    ListAdapter<UserResponse, ListFollowsAdapter.MyViewHolder>(DIFF_CALLBACK) {
+
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<FollowResponseItem>() {
-            override fun areItemsTheSame(
-                oldItem: FollowResponseItem,
-                newItem: FollowResponseItem
-            ): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<UserResponse>() {
+            override fun areItemsTheSame(oldItem: UserResponse, newItem: UserResponse): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(
-                oldItem: FollowResponseItem,
-                newItem: FollowResponseItem
-            ): Boolean {
+            override fun areContentsTheSame(oldItem: UserResponse, newItem: UserResponse): Boolean {
                 return oldItem == newItem
             }
         }
@@ -32,20 +27,21 @@ class ListFollowsAdapter :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ListFollowsAdapter.ViewHolder {
+    ): MyViewHolder {
         val binding = ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+        return MyViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ListFollowsAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val user = getItem(position)
         holder.bind(user)
     }
 
-    class ViewHolder(private val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(userItem: FollowResponseItem) {
-            binding.tvCardUsername.text = userItem.login
-            Glide.with(itemView.context).load(userItem.avatarUrl).into(binding.imgCardAvatar)
+    class MyViewHolder(private val binding: ItemUserBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(user: UserResponse) {
+            binding.tvCardUsername.text = user.login
+            Glide.with(itemView.context).load(user.avatarUrl).into(binding.imgCardAvatar)
         }
     }
 }
