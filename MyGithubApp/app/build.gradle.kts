@@ -1,7 +1,5 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import java.util.Properties
 
-val key: String = gradleLocalProperties(rootDir).getProperty("BASE_URL")
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -21,7 +19,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        val projectProperties = readProperties(project.rootProject.file("local.properties"))
+        val projectProperties = readProperties(project.rootProject.file("_local.properties"))
         buildConfigField("String", "BASE_URL", projectProperties["BASE_URL"] as String)
         buildConfigField("String", "TOKEN", projectProperties["PERSONAL_KEY"] as String)
     }
