@@ -1,12 +1,15 @@
 package com.satria.dicoding.submission.mygithubapp.ui.profile
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.satria.dicoding.submission.mygithubapp.MainActivity
 import com.satria.dicoding.submission.mygithubapp.data.response.UserResponse
+import com.satria.dicoding.submission.mygithubapp.data.view_model.UserViewModel
 import com.satria.dicoding.submission.mygithubapp.databinding.ItemUserBinding
 
 class ListFollowsAdapter :
@@ -35,6 +38,12 @@ class ListFollowsAdapter :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val user = getItem(position)
         holder.bind(user)
+        holder.itemView.setOnClickListener {
+
+            val intent = Intent(holder.itemView.context, MainActivity::class.java)
+            UserViewModel.USER_ID = user.login ?: ""
+            holder.itemView.context.startActivity(intent)
+        }
     }
 
     class MyViewHolder(private val binding: ItemUserBinding) :

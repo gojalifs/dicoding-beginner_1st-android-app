@@ -10,8 +10,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.satria.dicoding.submission.mygithubapp.data.response.UserResponse
+import com.satria.dicoding.submission.mygithubapp.data.view_model.UserViewModel
 import com.satria.dicoding.submission.mygithubapp.databinding.FragmentFollowBinding
-import com.satria.dicoding.submission.mygithubapp.ui.UserViewModel
 
 
 class FollowFragment : Fragment() {
@@ -22,7 +22,6 @@ class FollowFragment : Fragment() {
 
     companion object {
         var ARG_POSITION = "position"
-        var ARG_USERNAME = "username"
     }
 
     override fun onCreateView(
@@ -30,7 +29,6 @@ class FollowFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-//        binding = FragmentFollowBinding.inflate(inflater, container, false)
         binding = FragmentFollowBinding.inflate(inflater, container, false)
         val adapter = ListFollowsAdapter()
         binding.rvUsers.adapter = adapter
@@ -43,24 +41,19 @@ class FollowFragment : Fragment() {
 
         arguments?.let {
             position = it.getInt(ARG_POSITION)
-            username = it.getString(ARG_USERNAME) ?: ""
         }
         Log.d("TAG", "onViewCreated: position $position")
-
+        userViewModel.isLoading.observe(viewLifecycleOwner) { showLoading(it) }
         if (position == 1) {
             userViewModel.following.observe(viewLifecycleOwner) { setFollowsData(it) }
         } else {
             userViewModel.follower.observe(viewLifecycleOwner) { setFollowsData(it) }
         }
 
-        // TODO set data here
-
-
         val layoutManager = LinearLayoutManager(view.context)
         binding.rvUsers.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(view.context, layoutManager.orientation)
         binding.rvUsers.addItemDecoration(itemDecoration)
-
 
     }
 
@@ -68,5 +61,15 @@ class FollowFragment : Fragment() {
         val adapter = ListFollowsAdapter()
         adapter.submitList(followsData)
         binding.rvUsers.adapter = adapter
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.shimmerItem.visibility = View.VISIBLE
+            binding.rvUsers.visibility = View.INVISIBLE
+        } else {
+            binding.shimmerItem.visibility = View.INVISIBLE
+            binding.rvUsers.visibility = View.VISIBLE
+        }
     }
 }

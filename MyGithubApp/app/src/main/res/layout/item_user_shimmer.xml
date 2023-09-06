@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -10,23 +9,23 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <View
             android:id="@+id/img_card_avatar"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:contentDescription="@string/avatar_image"
+            android:background="@drawable/circle_shape"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_card_username"
             style="@style/TextContent.BodyMedium.Bold"
+            android:layout_width="200dp"
             android:layout_marginStart="12dp"
+            android:background="#DDD"
             app:layout_constraintBottom_toBottomOf="@+id/img_card_avatar"
             app:layout_constraintStart_toEndOf="@+id/img_card_avatar"
-            app:layout_constraintTop_toTopOf="@+id/img_card_avatar"
-            tools:text="Full Name" />
+            app:layout_constraintTop_toTopOf="@+id/img_card_avatar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

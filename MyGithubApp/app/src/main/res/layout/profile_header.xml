@@ -48,39 +48,51 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_username">
 
         <ImageView
+            android:id="@+id/ic_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:importantForAccessibility="no"
+            android:paddingHorizontal="6dp"
             android:src="@drawable/round_place_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_country"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:tint="?attr/colorPrimary" />
 
         <TextView
             android:id="@+id/tv_country"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="6dp"
-            android:paddingEnd="0dp"
+            android:paddingHorizontal="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ic_mail"
+            app:layout_constraintStart_toEndOf="@id/ic_location"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Indonesia" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="8dp"
-            android:text="|" />
-
         <ImageView
+            android:id="@+id/ic_mail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:importantForAccessibility="no"
+            android:paddingHorizontal="6dp"
             android:src="@drawable/round_mail_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_email"
+            app:layout_constraintStart_toEndOf="@id/tv_country"
+            app:layout_constraintTop_toTopOf="parent"
             app:tint="?attr/colorPrimary" />
 
         <TextView
             android:id="@+id/tv_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="6dp"
-            android:paddingEnd="18dp"
+            android:paddingHorizontal="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ic_mail"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="email address" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

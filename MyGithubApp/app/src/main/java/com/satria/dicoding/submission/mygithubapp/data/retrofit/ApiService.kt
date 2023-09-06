@@ -1,10 +1,12 @@
 package com.satria.dicoding.submission.mygithubapp.data.retrofit
 
 import com.satria.dicoding.submission.mygithubapp.BuildConfig
+import com.satria.dicoding.submission.mygithubapp.data.response.SearchResponse
 import com.satria.dicoding.submission.mygithubapp.data.response.UserResponse
 import retrofit2.Call
 import retrofit2.http.*
 
+/// TODO make sure add/change base url and token on local.properties
 interface ApiService {
     @Headers("Authorization: token ${BuildConfig.TOKEN}")
     @GET("users/{user}")
@@ -15,4 +17,7 @@ interface ApiService {
 
     @GET("users/{user}/followers")
     fun getFollower(@Path("user") user: String): Call<List<UserResponse>>
+
+    @GET("search/users")
+    fun searchUser(@Query("q") user: String): Call<SearchResponse>
 }

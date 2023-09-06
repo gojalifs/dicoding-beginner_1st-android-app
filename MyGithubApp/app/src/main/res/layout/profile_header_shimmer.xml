@@ -6,19 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/img_avatar"
+    <View
+        android:id="@+id/img_avatar_shimmer"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="36dp"
-        app:civ_circle_background_color="#000"
+        android:background="@drawable/circle_shape"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/tv_fullName"
+        android:id="@+id/tv_fullName_shimmer"
         android:layout_width="175dp"
         android:layout_height="27dp"
         android:layout_marginTop="24dp"
@@ -26,10 +26,10 @@
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_avatar" />
+        app:layout_constraintTop_toBottomOf="@+id/img_avatar_shimmer" />
 
     <TextView
-        android:id="@+id/tv_username"
+        android:id="@+id/tv_username_shimmer"
         android:layout_width="120dp"
         android:layout_height="16dp"
         android:layout_marginTop="24dp"
@@ -38,52 +38,38 @@
         android:textColor="@color/material_on_surface_disabled"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_fullName" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_fullName_shimmer" />
 
-    <LinearLayout
-        android:id="@+id/country_email_layout"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/country_email_layout_shimmer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_username">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:importantForAccessibility="no"
-            android:src="@drawable/round_place_24"
-            app:tint="?attr/colorPrimary" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_username_shimmer">
 
         <TextView
-            android:id="@+id/tv_country"
-            android:layout_width="100dp"
+            android:id="@+id/tv_country_shimmer"
+            android:layout_width="125dp"
             android:layout_height="16dp"
+            android:layout_marginStart="6dp"
             android:background="#DDD"
-            android:paddingStart="6dp"
-            android:paddingEnd="0dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_email_shimmer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="8dp"
-            android:text="|" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:importantForAccessibility="no"
-            android:src="@drawable/round_mail_24"
-            app:tint="?attr/colorPrimary" />
-
-        <TextView
-            android:id="@+id/tv_email"
-            android:layout_width="150dp"
+            android:id="@+id/tv_email_shimmer"
+            android:layout_width="125dp"
             android:layout_height="16dp"
+            android:layout_marginStart="6dp"
             android:background="#DDD"
-            android:paddingStart="6dp"
-            android:paddingEnd="18dp" />
-    </LinearLayout>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_country_shimmer"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
