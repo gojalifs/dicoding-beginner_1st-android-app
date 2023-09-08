@@ -6,7 +6,6 @@ import com.satria.dicoding.submission.mygithubapp.data.response.UserResponse
 import retrofit2.Call
 import retrofit2.http.*
 
-/// TODO make sure add/change base url and token on local.properties
 interface ApiService {
     @Headers("Authorization: token ${BuildConfig.TOKEN}")
     @GET("users/{user}")
