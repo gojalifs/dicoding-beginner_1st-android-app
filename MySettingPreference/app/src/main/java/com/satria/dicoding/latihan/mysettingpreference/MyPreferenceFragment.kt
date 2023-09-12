@@ -72,5 +72,4 @@ class MyPreferenceFragment : PreferenceFragmentCompat(),
         phonePreference.summary = sh?.getString(PHONE, DEFAULT_VALUE)
         isLoveMuPreference.isChecked = sh?.getBoolean(LOVE, false) ?: false
     }
-
 }
