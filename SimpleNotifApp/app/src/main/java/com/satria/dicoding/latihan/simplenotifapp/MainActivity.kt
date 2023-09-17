@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.NotificationCompat
+import androidx.core.app.TaskStackBuilder
 import com.satria.dicoding.latihan.simplenotifapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -38,13 +39,26 @@ class MainActivity : AppCompatActivity() {
         val msg = getString(R.string.notification_message)
 
         binding.btnSendNotification.setOnClickListener { sendNotification(title, msg) }
+        binding.btnOpenDetail.setOnClickListener {
+            val detailIntent = Intent(this, DetailActivity::class.java)
+            detailIntent.putExtra(DetailActivity.EXTRA_TITLE, title)
+            detailIntent.putExtra(DetailActivity.EXTRA_MESSAGE, msg)
+            startActivity(detailIntent)
+        }
     }
 
     private fun sendNotification(title: String, msg: String) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://google.com"))
-        val pendingIntent = PendingIntent.getActivity(
-            this, 0, intent, PendingIntent.FLAG_IMMUTABLE
-        )
+        val notifDetailIntent = Intent(this, DetailActivity::class.java)
+        notifDetailIntent.putExtra(DetailActivity.EXTRA_TITLE, title)
+        notifDetailIntent.putExtra(DetailActivity.EXTRA_MESSAGE, msg)
+
+        val pendingIntent = TaskStackBuilder.create(this).run {
+            addNextIntentWithParentStack(notifDetailIntent)
+            getPendingIntent(
+                NOTIFICATION_ID,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+        }
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
@@ -53,7 +67,12 @@ class MainActivity : AppCompatActivity() {
             .setContentText(msg)
             .setSubText(getString(R.string.notification_subtext))
             .setSmallIcon(R.drawable.round_notifications_active_24)
-            .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.round_notifications_active_24))
+            .setLargeIcon(
+                BitmapFactory.decodeResource(
+                    resources,
+                    R.drawable.round_notifications_active_24
+                )
+            )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
 
