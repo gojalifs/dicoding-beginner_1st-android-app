@@ -4,18 +4,24 @@ import android.Manifest
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.work.Constraints
 import androidx.work.Data
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.satria.dicoding.latihan.workmanagerapp.databinding.ActivityMainBinding
+import java.util.concurrent.TimeUnit
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var workManager: WorkManager
+    private lateinit var periodicWorkRequest: PeriodicWorkRequest
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -37,9 +43,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         workManager = WorkManager.getInstance(this)
-        binding.btnOneTimeTask.setOnClickListener {
-            startOneTask()
-        }
+        binding.btnOneTimeTask.setOnClickListener(this)
+        binding.btnPeriodicTask.setOnClickListener(this)
+        binding.btnCancelTask.setOnClickListener(this)
     }
 
     private fun startOneTask() {
@@ -61,5 +67,47 @@ class MainActivity : AppCompatActivity() {
                 val status = it.state.name
                 binding.textStatus.append("\n$status")
             }
+    }
+
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.btnOneTimeTask -> startOneTask()
+            R.id.btnPeriodicTask -> {
+                Log.d("TAG", "startPeriodicTask: ")
+                startPeriodicTask()
+            }
+
+            R.id.btnCancelTask -> cancelPeriodicTask()
+        }
+    }
+
+    private fun startPeriodicTask() {
+        binding.textStatus.text = getString(R.string.status)
+        val data = Data.Builder()
+            .putString(MyWorker.EXTRA_CITY, binding.editCity.text.toString().trim())
+            .build()
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+        periodicWorkRequest = PeriodicWorkRequest
+            .Builder(MyWorker::class.java, 15, TimeUnit.MINUTES)
+            .setInputData(data)
+            .setConstraints(constraints)
+            .build()
+
+        workManager.enqueue(periodicWorkRequest)
+        workManager.getWorkInfoByIdLiveData(periodicWorkRequest.id)
+            .observe(this) {
+                val status = it.state.name
+                binding.textStatus.append("\n$status")
+                binding.btnCancelTask.isEnabled = false
+                if (it.state == WorkInfo.State.ENQUEUED) {
+                    binding.btnCancelTask.isEnabled = true
+                }
+            }
+    }
+
+    private fun cancelPeriodicTask() {
+        workManager.cancelWorkById(periodicWorkRequest.id)
     }
 }
