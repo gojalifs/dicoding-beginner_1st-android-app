@@ -11,12 +11,15 @@ interface ApiService {
     @GET("users/{user}")
     fun getUser(@Path("user") user: String): Call<UserResponse>
 
+    @Headers("Authorization: token ${BuildConfig.TOKEN}")
     @GET("users/{user}/following")
     fun getFollowing(@Path("user") user: String): Call<List<UserResponse>>
 
+    @Headers("Authorization: token ${BuildConfig.TOKEN}")
     @GET("users/{user}/followers")
     fun getFollower(@Path("user") user: String): Call<List<UserResponse>>
 
+    @Headers("Authorization: token ${BuildConfig.TOKEN}")
     @GET("search/users")
     fun searchUser(@Query("q") user: String): Call<SearchResponse>
 }

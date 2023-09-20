@@ -16,7 +16,6 @@ import com.satria.dicoding.submission.mygithubapp.databinding.FragmentFollowBind
 
 class FollowFragment : Fragment() {
     private lateinit var binding: FragmentFollowBinding
-    private lateinit var username: String
     private val userViewModel: UserViewModel by activityViewModels()
     private var position = 1
 

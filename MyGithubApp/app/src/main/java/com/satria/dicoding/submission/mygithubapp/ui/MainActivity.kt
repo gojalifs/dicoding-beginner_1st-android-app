@@ -1,4 +1,4 @@
-package com.satria.dicoding.submission.mygithubapp
+package com.satria.dicoding.submission.mygithubapp.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,8 +11,12 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.satria.dicoding.submission.mygithubapp.R
 import com.satria.dicoding.submission.mygithubapp.data.response.UserResponse
+import com.satria.dicoding.submission.mygithubapp.data.view_model.FavoriteUsersViewModel
 import com.satria.dicoding.submission.mygithubapp.data.view_model.UserViewModel
+import com.satria.dicoding.submission.mygithubapp.data.view_model.ViewModelFactory
+import com.satria.dicoding.submission.mygithubapp.database.FavoriteUser
 import com.satria.dicoding.submission.mygithubapp.databinding.ActivityMainBinding
 import com.satria.dicoding.submission.mygithubapp.ui.profile.SectionPagerAdapter
 import com.satria.dicoding.submission.mygithubapp.ui.search.SearchActivity
@@ -20,14 +24,15 @@ import com.satria.dicoding.submission.mygithubapp.ui.search.SearchActivity
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val userViewModel by viewModels<UserViewModel>()
-
-    companion object {
-        @StringRes
-        private val TAB_TITLES = intArrayOf(
-            R.string.following,
-            R.string.followers,
+    private val favoriteUserViewModel by viewModels<FavoriteUsersViewModel> {
+        ViewModelFactory.getInstance(
+            application
         )
     }
+
+    private var favoriteUser = FavoriteUser()
+    private var isFavorites = false
+    private val user = "gojalifs"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +51,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val username = intent.getStringExtra(EXTRA_USERNAME) ?: user
+
+        if (user != username) {
+            binding.fabFav.visibility = View.VISIBLE
+            binding.fabFav.setOnClickListener {
+                if (isFavorites) {
+                    favoriteUserViewModel.delete(favoriteUser)
+                    showToast("User Deleted From Favorites")
+                } else {
+                    favoriteUserViewModel.insert(favoriteUser)
+                    showToast("User Added To Favorites")
+                }
+            }
+        }
 
         val sectionPagerAdapter = SectionPagerAdapter(this)
         val viewPager: ViewPager2 = binding.viewPager2
@@ -66,8 +85,16 @@ class MainActivity : AppCompatActivity() {
 
         userViewModel.isLoading.observe(this) { showLoading(it) }
         userViewModel.toastMessage.observe(this) {
-            it.getContentIfNotHandled().let { msg ->
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+            showToast(it.getContentIfNotHandled())
+        }
+
+        favoriteUserViewModel.getFavUserByUsername().observe(this) { user ->
+            isFavorites = if (user == null) {
+                binding.fabFav.setImageResource(R.drawable.baseline_favorite_border_24)
+                false
+            } else {
+                binding.fabFav.setImageResource(R.drawable.baseline_favorite_24)
+                true
             }
         }
 
@@ -79,12 +106,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        if (isLoading) {
-            binding.shimmerProfile.visibility = View.VISIBLE
-            binding.includeProfileHeader.root.visibility = View.INVISIBLE
-        } else {
-            binding.shimmerProfile.visibility = View.INVISIBLE
-            binding.includeProfileHeader.root.visibility = View.VISIBLE
+        with(binding) {
+            if (isLoading) {
+                shimmerProfile.visibility = View.VISIBLE
+                includeProfileHeader.root.visibility = View.INVISIBLE
+                binding.fabFav.isEnabled = false
+            } else {
+                shimmerProfile.visibility = View.INVISIBLE
+                includeProfileHeader.root.visibility = View.VISIBLE
+                binding.fabFav.isEnabled = true
+            }
         }
     }
 
@@ -96,5 +127,26 @@ class MainActivity : AppCompatActivity() {
         userBinding.tvCountry.text = user?.location
         userBinding.tvEmail.text = user?.email
         Glide.with(this).load(user?.avatarUrl).into(userBinding.imgAvatar)
+
+        /*
+            initiate user to be favorited
+         */
+        favoriteUser.username = user?.login ?: ""
+        favoriteUser.avatarUrl = user?.avatarUrl
+    }
+
+    companion object {
+        const val EXTRA_USERNAME = "extra_username"
+
+        @StringRes
+        private val TAB_TITLES = intArrayOf(
+            R.string.following,
+            R.string.followers,
+        )
+
+    }
+
+    private fun showToast(msg: String?) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 }

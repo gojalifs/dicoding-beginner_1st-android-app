@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.satria.dicoding.submission.mygithubapp.MainActivity
 import com.satria.dicoding.submission.mygithubapp.data.response.UserResponse
+import com.satria.dicoding.submission.mygithubapp.data.view_model.FavoriteUsersViewModel
 import com.satria.dicoding.submission.mygithubapp.data.view_model.UserViewModel
 import com.satria.dicoding.submission.mygithubapp.databinding.ItemUserBinding
+import com.satria.dicoding.submission.mygithubapp.ui.MainActivity
 
 class ListFollowsAdapter :
     ListAdapter<UserResponse, ListFollowsAdapter.MyViewHolder>(DIFF_CALLBACK) {
@@ -41,7 +42,9 @@ class ListFollowsAdapter :
         holder.itemView.setOnClickListener {
 
             val intent = Intent(holder.itemView.context, MainActivity::class.java)
+            intent.putExtra(MainActivity.EXTRA_USERNAME, user.login)
             UserViewModel.USER_ID = user.login ?: ""
+            FavoriteUsersViewModel.username = user.login ?: ""
             holder.itemView.context.startActivity(intent)
         }
     }
