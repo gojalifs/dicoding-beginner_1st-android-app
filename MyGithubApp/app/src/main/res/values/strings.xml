@@ -7,10 +7,12 @@
     <string name="search">Search</string>
     <string name="followers_count">Followers %1$s</string>
     <string name="following_count">Following %1$s</string>
-    <string name="no_data">No Data. Try Again</string>
+    <string name="no_data">No Data</string>
     <string name="tab_of_following_and_follower">Tab Of Following and Follower</string>
     <string name="avatar_image">Avatar Image</string>
     <string name="fab_favorite">Floating Action Button To Favorite The User</string>
     <string name="actionbar_favorites">Your Favorites</string>
+    <string name="toggle_dark_mode">Toggle Dark Mode</string>
+    <string name="location_not_set">Location Not Set</string>
 
 </resources>

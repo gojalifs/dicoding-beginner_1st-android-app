@@ -1,8 +1,12 @@
-package com.satria.dicoding.submission.mygithubapp.data.view_model
+package com.satria.dicoding.submission.mygithubapp.data.view_model.factory
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.satria.dicoding.submission.mygithubapp.data.view_model.FavoriteUsersViewModel
+import com.satria.dicoding.submission.mygithubapp.data.view_model.ThemeViewModel
+import com.satria.dicoding.submission.mygithubapp.settings.SettingPreferences
+import com.satria.dicoding.submission.mygithubapp.settings.dataStore
 
 class ViewModelFactory private constructor(private val mApplication: Application) :
     ViewModelProvider.NewInstanceFactory() {
@@ -24,8 +28,11 @@ class ViewModelFactory private constructor(private val mApplication: Application
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(FavoriteUsersViewModel::class.java)){
+        if (modelClass.isAssignableFrom(FavoriteUsersViewModel::class.java)) {
             return FavoriteUsersViewModel(mApplication) as T
+        }
+        if (modelClass.isAssignableFrom(ThemeViewModel::class.java)) {
+            return ThemeViewModel(SettingPreferences.getInstance(mApplication.dataStore)) as T
         }
         throw IllegalArgumentException("Unknown ViewModel Class: ${modelClass.name}")
     }
