@@ -11,5 +11,6 @@
     <string name="tab_of_following_and_follower">Tab Of Following and Follower</string>
     <string name="avatar_image">Avatar Image</string>
     <string name="fab_favorite">Floating Action Button To Favorite The User</string>
+    <string name="actionbar_favorites">Your Favorites</string>
 
 </resources>

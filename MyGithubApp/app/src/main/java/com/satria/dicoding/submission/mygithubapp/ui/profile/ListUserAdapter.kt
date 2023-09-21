@@ -13,8 +13,8 @@ import com.satria.dicoding.submission.mygithubapp.data.view_model.UserViewModel
 import com.satria.dicoding.submission.mygithubapp.databinding.ItemUserBinding
 import com.satria.dicoding.submission.mygithubapp.ui.MainActivity
 
-class ListFollowsAdapter :
-    ListAdapter<UserResponse, ListFollowsAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class ListUserAdapter :
+    ListAdapter<UserResponse, ListUserAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<UserResponse>() {

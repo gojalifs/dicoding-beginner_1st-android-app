@@ -7,4 +7,16 @@
         android:tint="?attr/colorPrimary"
         android:title="@string/search"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/btn_favorites"
+        android:icon="@drawable/baseline_favorite_24"
+        android:tint="?attr/colorPrimary"
+        android:title="Favorites"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/btn_dark_mode"
+        android:icon="@drawable/baseline_dark_mode_24"
+        android:tint="?attr/colorPrimary"
+        android:title="Toggle Dark Mode"
+        app:showAsAction="ifRoom" />
 </menu>

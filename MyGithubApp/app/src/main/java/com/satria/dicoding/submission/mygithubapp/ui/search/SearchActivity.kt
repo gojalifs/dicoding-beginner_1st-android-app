@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.satria.dicoding.submission.mygithubapp.data.response.UserResponse
 import com.satria.dicoding.submission.mygithubapp.data.view_model.SearchViewModel
 import com.satria.dicoding.submission.mygithubapp.databinding.ActivitySearchBinding
-import com.satria.dicoding.submission.mygithubapp.ui.profile.ListFollowsAdapter
+import com.satria.dicoding.submission.mygithubapp.ui.profile.ListUserAdapter
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchBinding
@@ -31,7 +31,7 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        val adapter = ListFollowsAdapter()
+        val adapter = ListUserAdapter()
         binding.rvSearch.adapter = adapter
         val layoutManager = LinearLayoutManager(this)
         binding.rvSearch.layoutManager = layoutManager
@@ -50,7 +50,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun setSearchResult(searchResult: List<UserResponse?>?) {
-        val adapter = ListFollowsAdapter()
+        val adapter = ListUserAdapter()
         adapter.submitList(searchResult)
         binding.rvSearch.adapter = adapter
 

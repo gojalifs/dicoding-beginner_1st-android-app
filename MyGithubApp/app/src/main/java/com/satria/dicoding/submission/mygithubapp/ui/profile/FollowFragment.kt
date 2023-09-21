@@ -29,7 +29,7 @@ class FollowFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentFollowBinding.inflate(inflater, container, false)
-        val adapter = ListFollowsAdapter()
+        val adapter = ListUserAdapter()
         binding.rvUsers.adapter = adapter
 
         return binding.root
@@ -57,7 +57,7 @@ class FollowFragment : Fragment() {
     }
 
     private fun setFollowsData(followsData: List<UserResponse>?) {
-        val adapter = ListFollowsAdapter()
+        val adapter = ListUserAdapter()
         adapter.submitList(followsData)
         binding.rvUsers.adapter = adapter
     }

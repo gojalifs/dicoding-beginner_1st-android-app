@@ -2,11 +2,13 @@ package com.satria.dicoding.submission.mygithubapp.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
@@ -18,10 +20,11 @@ import com.satria.dicoding.submission.mygithubapp.data.view_model.UserViewModel
 import com.satria.dicoding.submission.mygithubapp.data.view_model.ViewModelFactory
 import com.satria.dicoding.submission.mygithubapp.database.FavoriteUser
 import com.satria.dicoding.submission.mygithubapp.databinding.ActivityMainBinding
+import com.satria.dicoding.submission.mygithubapp.ui.favorites_user.FavoritesUserActivity
 import com.satria.dicoding.submission.mygithubapp.ui.profile.SectionPagerAdapter
 import com.satria.dicoding.submission.mygithubapp.ui.search.SearchActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener {
     private lateinit var binding: ActivityMainBinding
     private val userViewModel by viewModels<UserViewModel>()
     private val favoriteUserViewModel by viewModels<FavoriteUsersViewModel> {
@@ -39,17 +42,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.appBar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.btn_search -> {
-                    val intent = Intent(this, SearchActivity::class.java)
-                    startActivity(intent)
-                    true
-                }
-
-                else -> false
-            }
-        }
+        binding.appBar.setOnMenuItemClickListener(this)
 
         val username = intent.getStringExtra(EXTRA_USERNAME) ?: user
 
@@ -125,7 +118,15 @@ class MainActivity : AppCompatActivity() {
         userBinding.tvFullName.text = user?.name
         userBinding.tvUsername.text = getString(R.string.username, user?.login)
         userBinding.tvCountry.text = user?.location
-        userBinding.tvEmail.text = user?.email
+        if (user?.email == null) {
+            userBinding.tvEmail.visibility = View.GONE
+            userBinding.icMail.visibility = View.GONE
+        } else {
+            userBinding.tvEmail.text = user.email
+        }
+        if (user?.location == null){
+            userBinding.tvCountry.text = "Location Not Set"
+        }
         Glide.with(this).load(user?.avatarUrl).into(userBinding.imgAvatar)
 
         /*
@@ -148,5 +149,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun showToast(msg: String?) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.btn_search -> {
+                val intent = Intent(this, SearchActivity::class.java)
+                startActivity(intent)
+                true
+            }
+
+            R.id.btn_favorites -> {
+                val intent = Intent(this, FavoritesUserActivity::class.java)
+                startActivity(intent)
+                true
+            }
+
+            else -> false
+        }
     }
 }

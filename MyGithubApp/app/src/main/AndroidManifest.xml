@@ -15,6 +15,9 @@
         android:theme="@style/Theme.MyGithubApp"
         tools:targetApi="31">
         <activity
+            android:name=".ui.favorites_user.FavoritesUserActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.search.SearchActivity"
             android:exported="false" />
         <activity
